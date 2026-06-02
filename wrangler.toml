@@ -1,0 +1,14 @@
+name = "food-bot"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+# KV namespace — создать командой:
+# wrangler kv:namespace create "KV"
+# и вставить полученный id ниже
+[[kv_namespaces]]
+binding = "KV"
+id = "706b1a932c1d4b05bad568d2bb4fb2e3"
+
+# Секреты задаются через wrangler secret put, НЕ хранить здесь:
+# BOT_TOKEN  — токен от @BotFather
+# SECRET     — любая случайная строка для защиты webhook URL
