@@ -435,12 +435,6 @@ function batchListKeyboard(batches, opType, todayStr) {
 
 // ─── Операции ─────────────────────────────────────────────────────────────────
 
-const OP_LABELS = {
-  produced:    { emoji: '➕', verb: 'Произведено', pastVerb: 'Добавлено', sign: '+' },
-  sold:        { emoji: '💰', verb: 'Продано',     pastVerb: 'Записано',  sign: '-' },
-  written_off: { emoji: '🗑', verb: 'Списано',     pastVerb: 'Списано',   sign: '-' },
-};
-
 async function startOperation(token, env, chatId, msgId, opType) {
   const products = await getProducts(env);
   const label    = OP_LABELS[opType];
