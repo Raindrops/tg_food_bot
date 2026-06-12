@@ -1,0 +1,843 @@
+[
+    {
+        "name": "Сырный крем-суп",
+        "category": "Супы",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 970,
+                "pieces": null,
+                "grams": null,
+                "ml": 750
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 129,
+            "proteins": 7.1,
+            "fats": 6.3,
+            "carbohydrates": 10.9
+        }
+    },
+    {
+        "name": "Блины с говядиной",
+        "category": "Изделия из говядины",
+        "custom_made": true,
+        "batch_variants": [
+            {
+                "price": 475,
+                "pieces": 5,
+                "grams": null,
+                "ml": null
+            },
+            {
+                "price": 950,
+                "pieces": 10,
+                "grams": null,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 178,
+            "proteins": 8.4,
+            "fats": 9.1,
+            "carbohydrates": 16.0
+        }
+    },
+    {
+        "name": "Фрикадельки",
+        "category": "Изделия из говядины",
+        "custom_made": true,
+        "batch_variants": [
+            {
+                "price": 500,
+                "pieces": null,
+                "grams": 500,
+                "ml": null
+            },
+            {
+                "price": 1000,
+                "pieces": null,
+                "grams": 1000,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 175,
+            "proteins": 12.0,
+            "fats": 13.1,
+            "carbohydrates": 3.7
+        }
+    },
+    {
+        "name": "Котлеты",
+        "category": "Изделия из говядины",
+        "custom_made": true,
+        "batch_variants": [
+            {
+                "price": 550,
+                "pieces": null,
+                "grams": 500,
+                "ml": null
+            },
+            {
+                "price": 1100,
+                "pieces": null,
+                "grams": 1000,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 190,
+            "proteins": 12.0,
+            "fats": 12.1,
+            "carbohydrates": 9.9
+        }
+    },
+    {
+        "name": "Перцы фаршированные",
+        "category": "Изделия из говядины",
+        "custom_made": true,
+        "batch_variants": [
+            {
+                "price": 600,
+                "pieces": null,
+                "grams": 500,
+                "ml": null
+            },
+            {
+                "price": 1200,
+                "pieces": null,
+                "grams": 1000,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 102,
+            "proteins": 6.3,
+            "fats": 6.3,
+            "carbohydrates": 5.7
+        }
+    },
+    {
+        "name": "Котлеты рыбные (филе минтая)",
+        "category": "Рыбная продукция",
+        "custom_made": true,
+        "batch_variants": [
+            {
+                "price": 500,
+                "pieces": null,
+                "grams": 500,
+                "ml": null
+            },
+            {
+                "price": 1000,
+                "pieces": null,
+                "grams": 1000,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 128,
+            "proteins": 12.6,
+            "fats": 4.2,
+            "carbohydrates": 9.8
+        }
+    },
+    {
+        "name": "Котлеты рыбные (филе кеты)",
+        "category": "Рыбная продукция",
+        "custom_made": true,
+        "batch_variants": [
+            {
+                "price": 550,
+                "pieces": null,
+                "grams": 500,
+                "ml": null
+            },
+            {
+                "price": 1100,
+                "pieces": null,
+                "grams": 1000,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 168,
+            "proteins": 17.1,
+            "fats": 6.3,
+            "carbohydrates": 10.4
+        }
+    },
+    {
+        "name": "Котлеты куриные классика",
+        "category": "Изделия из курицы",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 450,
+                "pieces": null,
+                "grams": 500,
+                "ml": null
+            },
+            {
+                "price": 900,
+                "pieces": null,
+                "grams": 1000,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 143,
+            "proteins": 16.3,
+            "fats": 4.2,
+            "carbohydrates": 8.3
+        }
+    },
+    {
+        "name": "Фрикадельки куриные",
+        "category": "Изделия из курицы",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 430,
+                "pieces": null,
+                "grams": 500,
+                "ml": null
+            },
+            {
+                "price": 860,
+                "pieces": null,
+                "grams": 1000,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 121,
+            "proteins": 16.0,
+            "fats": 4.4,
+            "carbohydrates": 2.5
+        }
+    },
+    {
+        "name": "Наггетсы",
+        "category": "Изделия из курицы",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 450,
+                "pieces": null,
+                "grams": 500,
+                "ml": null
+            },
+            {
+                "price": 900,
+                "pieces": null,
+                "grams": 1000,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 140,
+            "proteins": 15.6,
+            "fats": 3.4,
+            "carbohydrates": 7.5
+        }
+    },
+    {
+        "name": "Лодочки фаршированные ПП",
+        "category": "Изделия из курицы",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 475,
+                "pieces": null,
+                "grams": 500,
+                "ml": null
+            },
+            {
+                "price": 950,
+                "pieces": null,
+                "grams": 1000,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 91,
+            "proteins": 7.7,
+            "fats": 2.5,
+            "carbohydrates": 4.5
+        }
+    },
+    {
+        "name": "Митболы",
+        "category": "Изделия из курицы",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 475,
+                "pieces": null,
+                "grams": 500,
+                "ml": null
+            },
+            {
+                "price": 950,
+                "pieces": null,
+                "grams": 1000,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 203,
+            "proteins": 15.6,
+            "fats": 8.0,
+            "carbohydrates": 6.9
+        }
+    },
+    {
+        "name": "Фрикадельки \"Разноцветье\" (Красные)",
+        "category": "Изделия из курицы",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 450,
+                "pieces": null,
+                "grams": 500,
+                "ml": null
+            },
+            {
+                "price": 900,
+                "pieces": null,
+                "grams": 1000,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 115,
+            "proteins": 14.4,
+            "fats": 4.2,
+            "carbohydrates": 2.4
+        }
+    },
+    {
+        "name": "Фрикадельки \"Разноцветье\" (Зелёные)",
+        "category": "Изделия из курицы",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 450,
+                "pieces": null,
+                "grams": 500,
+                "ml": null
+            },
+            {
+                "price": 900,
+                "pieces": null,
+                "grams": 1000,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 109,
+            "proteins": 14.7,
+            "fats": 4.2,
+            "carbohydrates": 1.4
+        }
+    },
+    {
+        "name": "Фрикадельки \"Разноцветье\" (Жёлтые)",
+        "category": "Изделия из курицы",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 450,
+                "pieces": null,
+                "grams": 500,
+                "ml": null
+            },
+            {
+                "price": 900,
+                "pieces": null,
+                "grams": 1000,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 111,
+            "proteins": 14.3,
+            "fats": 4.2,
+            "carbohydrates": 2.2
+        }
+    },
+    {
+        "name": "Бомбочки \"Жульен\"",
+        "category": "Изделия из курицы",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 550,
+                "pieces": null,
+                "grams": 500,
+                "ml": null
+            },
+            {
+                "price": 1100,
+                "pieces": null,
+                "grams": 1000,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 164,
+            "proteins": 15.6,
+            "fats": 6.2,
+            "carbohydrates": 9.8
+        }
+    },
+    {
+        "name": "Сырники классика",
+        "category": "Изделия из творога",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 800,
+                "pieces": 12,
+                "grams": null,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 157,
+            "proteins": 15.3,
+            "fats": 5.3,
+            "carbohydrates": 12.8
+        }
+    },
+    {
+        "name": "Сырники ПП",
+        "category": "Изделия из творога",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 820,
+                "pieces": 12,
+                "grams": null,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 125,
+            "proteins": 19.0,
+            "fats": 3.0,
+            "carbohydrates": 8.0
+        }
+    },
+    {
+        "name": "Сырники мак",
+        "category": "Изделия из творога",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 820,
+                "pieces": 12,
+                "grams": null,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 164,
+            "proteins": 15.4,
+            "fats": 5.8,
+            "carbohydrates": 13.0
+        }
+    },
+    {
+        "name": "Сырники шоколад",
+        "category": "Изделия из творога",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 820,
+                "pieces": 12,
+                "grams": null,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 188,
+            "proteins": 14.9,
+            "fats": 7.8,
+            "carbohydrates": 15.1
+        }
+    },
+    {
+        "name": "Сырники розовые",
+        "category": "Изделия из творога",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 820,
+                "pieces": 12,
+                "grams": null,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 152,
+            "proteins": 13.3,
+            "fats": 4.9,
+            "carbohydrates": 12.0
+        }
+    },
+    {
+        "name": "Запеканка классика малая",
+        "category": "Изделия из творога",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 180,
+                "pieces": null,
+                "grams": 120,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 162,
+            "proteins": 12.3,
+            "fats": 7.0,
+            "carbohydrates": 12.7
+        }
+    },
+    {
+        "name": "Запеканка ПП малая",
+        "category": "Изделия из творога",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 190,
+                "pieces": null,
+                "grams": 120,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 114,
+            "proteins": 15.5,
+            "fats": 4.3,
+            "carbohydrates": 4.1
+        }
+    },
+    {
+        "name": "Запеканка классика большая",
+        "category": "Изделия из творога",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 470,
+                "pieces": null,
+                "grams": 350,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 162,
+            "proteins": 12.3,
+            "fats": 7.0,
+            "carbohydrates": 12.7
+        }
+    },
+    {
+        "name": "Запеканка ПП большая",
+        "category": "Изделия из творога",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 490,
+                "pieces": null,
+                "grams": 350,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 114,
+            "proteins": 15.5,
+            "fats": 4.3,
+            "carbohydrates": 4.1
+        }
+    },
+    {
+        "name": "Паштет из куриной печени",
+        "category": "Прочее",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 350,
+                "pieces": null,
+                "grams": 200,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 141,
+            "proteins": 5.0,
+            "fats": 8.7,
+            "carbohydrates": 3.1
+        }
+    },
+    {
+        "name": "Лазанья",
+        "category": "Прочее",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 550,
+                "pieces": null,
+                "grams": 350,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 193,
+            "proteins": 9.8,
+            "fats": 12.5,
+            "carbohydrates": 10.1
+        }
+    },
+    {
+        "name": "Мясная запеканка",
+        "category": "Прочее",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 450,
+                "pieces": null,
+                "grams": 350,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 182,
+            "proteins": 9.7,
+            "fats": 11.8,
+            "carbohydrates": 8.8
+        }
+    },
+    {
+        "name": "Блинчики с творогом",
+        "category": "Блинчики",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 410,
+                "pieces": 5,
+                "grams": null,
+                "ml": null
+            },
+            {
+                "price": 800,
+                "pieces": 10,
+                "grams": null,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 142,
+            "proteins": 9.9,
+            "fats": 5.3,
+            "carbohydrates": 13.7
+        }
+    },
+    {
+        "name": "Блинчики ветчина-сыр",
+        "category": "Блинчики",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 435,
+                "pieces": 5,
+                "grams": null,
+                "ml": null
+            },
+            {
+                "price": 850,
+                "pieces": 10,
+                "grams": null,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 176,
+            "proteins": 10.9,
+            "fats": 11.7,
+            "carbohydrates": 11.0
+        }
+    },
+    {
+        "name": "Блинчики мясные",
+        "category": "Блинчики",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 440,
+                "pieces": 5,
+                "grams": null,
+                "ml": null
+            },
+            {
+                "price": 860,
+                "pieces": 10,
+                "grams": null,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 191,
+            "proteins": 10.2,
+            "fats": 11.4,
+            "carbohydrates": 11.0
+        }
+    },
+    {
+        "name": "Блинчики курица-грибы",
+        "category": "Блинчики",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 455,
+                "pieces": 5,
+                "grams": null,
+                "ml": null
+            },
+            {
+                "price": 890,
+                "pieces": 10,
+                "grams": null,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 152,
+            "proteins": 9.3,
+            "fats": 5.8,
+            "carbohydrates": 15.7
+        }
+    },
+    {
+        "name": "Котлеты свино-говяжьи",
+        "category": "Мясные изделия",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 475,
+                "pieces": null,
+                "grams": 500,
+                "ml": null
+            },
+            {
+                "price": 950,
+                "pieces": null,
+                "grams": 1000,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 258,
+            "proteins": 15.9,
+            "fats": 16.0,
+            "carbohydrates": 11.7
+        }
+    },
+    {
+        "name": "Тефтели свино-говяжьи",
+        "category": "Мясные изделия",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 460,
+                "pieces": null,
+                "grams": 500,
+                "ml": null
+            },
+            {
+                "price": 920,
+                "pieces": null,
+                "grams": 1000,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 230,
+            "proteins": 15.6,
+            "fats": 17.1,
+            "carbohydrates": 2.6
+        }
+    },
+    {
+        "name": "Фрикадельки свино-говяжьи",
+        "category": "Мясные изделия",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 450,
+                "pieces": null,
+                "grams": 500,
+                "ml": null
+            },
+            {
+                "price": 900,
+                "pieces": null,
+                "grams": 1000,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 208,
+            "proteins": 14.1,
+            "fats": 15.1,
+            "carbohydrates": 3.1
+        }
+    },
+    {
+        "name": "Гнёзда мясные",
+        "category": "Мясные изделия",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 160,
+                "pieces": 1,
+                "grams": null,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 207,
+            "proteins": 14.7,
+            "fats": 15.9,
+            "carbohydrates": 3.2
+        }
+    },
+    {
+        "name": "Перцы фаршированные",
+        "category": "Мясные изделия",
+        "custom_made": false,
+        "batch_variants": [
+            {
+                "price": 480,
+                "pieces": null,
+                "grams": 500,
+                "ml": null
+            },
+            {
+                "price": 960,
+                "pieces": null,
+                "grams": 1000,
+                "ml": null
+            }
+        ],
+        "nutritional_value_per_100g": {
+            "kcal": 141,
+            "proteins": 9.1,
+            "fats": 9.3,
+            "carbohydrates": 5.0
+        }
+    }
+]

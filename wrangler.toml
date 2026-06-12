@@ -10,5 +10,6 @@ binding = "KV"
 id = "706b1a932c1d4b05bad568d2bb4fb2e3"
 
 # Секреты задаются через wrangler secret put, НЕ хранить здесь:
-# BOT_TOKEN  — токен от @BotFather
-# SECRET     — любая случайная строка для защиты webhook URL
+# BOT_TOKEN   — токен от @BotFather
+# SECRET      — любая случайная строка для защиты webhook URL
+# OWNER_IDS   — ID Telegram через запятую (можно оставить OWNER_ID для совместимости)

@@ -1,8 +1,10 @@
 /**
  * Telegram Bot — учёт домашних полуфабрикатов
  * Cloudflare Workers + D1 + KV
- * v4 — партии, срок годности, архив, защита по OWNER_ID
+ * v5 — каталог из JSON, категории, фасовки, OWNER_IDS
  */
+
+import catalogData from '../msc/menu_english_keys.json' assert { type: 'json' };
 
 const COMMANDS = { START: '/start' };
 
@@ -36,8 +38,8 @@ function cancelKeyboard()   { return { inline_keyboard: [[{ text: '❌ Отме�
 
 async function getProducts(env, includeArchived = false) {
   const sql = includeArchived
-    ? 'SELECT * FROM products ORDER BY archived, name'
-    : 'SELECT * FROM products WHERE archived = 0 ORDER BY name';
+    ? 'SELECT * FROM products ORDER BY archived, category, name'
+    : 'SELECT * FROM products WHERE archived = 0 ORDER BY category, name';
   const { results } = await env.DB.prepare(sql).all();
   return results;
 }
@@ -46,10 +48,31 @@ async function getProductById(env, id) {
   return env.DB.prepare('SELECT * FROM products WHERE id = ?').bind(id).first();
 }
 
-async function createProduct(env, name, avgWeight, shelfLifeDays) {
+async function getProductsByCategory(env, category, includeArchived = false) {
+  const sql = includeArchived
+    ? 'SELECT * FROM products WHERE category = ? ORDER BY name'
+    : 'SELECT * FROM products WHERE category = ? AND archived = 0 ORDER BY name';
+  return (await env.DB.prepare(sql).bind(category).all()).results;
+}
+
+async function getCategories(env) {
+  const { results } = await env.DB.prepare(
+    'SELECT DISTINCT category FROM products WHERE archived = 0 AND category != \'\' ORDER BY category'
+  ).all();
+  return results.map(r => r.category);
+}
+
+async function createProduct(env, name, category, customMade, avgWeight, shelfLifeDays, kcal, proteins, fats, carbs) {
   return env.DB.prepare(
-    'INSERT INTO products (name, avg_weight, shelf_life_days) VALUES (?, ?, ?) RETURNING *'
-  ).bind(name, avgWeight, shelfLifeDays).first();
+    `INSERT INTO products (name, category, custom_made, avg_weight, shelf_life_days, kcal, proteins, fats, carbohydrates)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) RETURNING *`
+  ).bind(name, category || '', customMade ? 1 : 0, avgWeight || 0, shelfLifeDays || 7, kcal ?? null, proteins ?? null, fats ?? null, carbs ?? null).first();
+}
+
+async function updateProduct(env, id, fields) {
+  const set = Object.keys(fields).map(k => `${k} = ?`).join(', ');
+  const vals = Object.values(fields);
+  await env.DB.prepare(`UPDATE products SET ${set} WHERE id = ?`).bind(...vals, id).run();
 }
 
 async function archiveProduct(env, id) {
@@ -58,6 +81,50 @@ async function archiveProduct(env, id) {
 
 async function unarchiveProduct(env, id) {
   await env.DB.prepare('UPDATE products SET archived = 0 WHERE id = ?').bind(id).run();
+}
+
+// ─── D1: варианты фасовки ────────────────────────────────────────────────────
+
+async function getVariants(env, productId) {
+  const { results } = await env.DB.prepare(
+    'SELECT * FROM product_variants WHERE product_id = ? ORDER BY price'
+  ).bind(productId).all();
+  return results;
+}
+
+async function getVariantById(env, id) {
+  return env.DB.prepare('SELECT * FROM product_variants WHERE id = ?').bind(id).first();
+}
+
+async function createVariant(env, productId, price, pieces, grams, ml) {
+  return env.DB.prepare(
+    'INSERT INTO product_variants (product_id, price, pieces, grams, ml) VALUES (?, ?, ?, ?, ?) RETURNING *'
+  ).bind(productId, price, pieces ?? null, grams ?? null, ml ?? null).first();
+}
+
+// ─── Загрузка каталога из JSON ────────────────────────────────────────────────
+
+let catalogSeeded = false;
+
+async function seedCatalog(env) {
+  if (catalogSeeded) return;
+  const { results } = await env.DB.prepare('SELECT COUNT(*) AS cnt FROM products').all();
+  if (results[0].cnt > 0) { catalogSeeded = true; return; }
+
+  for (const item of catalogData) {
+    const product = await createProduct(
+      env, item.name, item.category, item.custom_made,
+      0, 7,
+      item.nutritional_value_per_100g?.kcal,
+      item.nutritional_value_per_100g?.proteins,
+      item.nutritional_value_per_100g?.fats,
+      item.nutritional_value_per_100g?.carbohydrates
+    );
+    for (const v of item.batch_variants) {
+      await createVariant(env, product.id, v.price, v.pieces, v.grams, v.ml);
+    }
+  }
+  catalogSeeded = true;
 }
 
 // ─── D1: партии ───────────────────────────────────────────────────────────────
@@ -123,7 +190,7 @@ async function getStockWithBatches(env) {
   // Суммарные остатки по товарам
   const { results: stock } = await env.DB.prepare(`
     SELECT
-      p.id, p.name, p.avg_weight, p.shelf_life_days,
+      p.id, p.name, p.category, p.avg_weight, p.shelf_life_days,
       COALESCE(SUM(CASE WHEN o.type='produced'    THEN o.pieces ELSE 0 END), 0)
         - COALESCE(SUM(CASE WHEN o.type!='produced' THEN o.pieces ELSE 0 END), 0) AS pieces,
       COALESCE(SUM(CASE WHEN o.type='produced'    THEN o.grams  ELSE 0 END), 0)
@@ -132,7 +199,7 @@ async function getStockWithBatches(env) {
     LEFT JOIN operations o ON o.product_id = p.id
     WHERE p.archived = 0
     GROUP BY p.id
-    ORDER BY p.name
+    ORDER BY p.category, p.name
   `).all();
 
   // Партии с проблемами (истекают сегодня/завтра или уже просрочены)
@@ -238,7 +305,12 @@ async function buildReport(env) {
   }
 
   const lines = ['📊 *Текущие остатки*\n'];
+  let lastCat = '';
   for (const r of stock) {
+    if (r.category && r.category !== lastCat) {
+      lastCat = r.category;
+      lines.push(`\n*${r.category}:*`);
+    }
     const kg = (r.grams / 1000).toFixed(2);
     const stockWarn = r.pieces < 0 ? '⚠️ ' : '';
     lines.push(`${stockWarn}*${r.name}*: ${r.pieces} шт · ${r.grams} г · ${kg} кг`);
@@ -292,7 +364,11 @@ async function buildHtmlReport(env) {
     alerts[b.product_id].push(b);
   }
 
+  let lastCat = '';
   const stockRows = stock.map(r => {
+    const catRow = (r.category && r.category !== lastCat)
+      ? `<tr class="category-row"><td colspan="7"><strong>${lastCat = r.category}</strong></td></tr>`
+      : '';
     const kg = (r.grams / 1000).toFixed(2);
     const warn = r.pieces < 0;
     let alertHtml = '';
@@ -303,15 +379,16 @@ async function buildHtmlReport(env) {
         return `<div class="batch-alert">${emoji} Партия от ${formatDate(b.expires_at)}: ${isExpired ? 'просрочена' : 'истекает ' + formatDate(b.expires_at)}, ${b.remaining_pieces} шт</div>`;
       }).join('');
     }
-    return `<tr class="${warn ? 'warn' : ''}">
+    return `${catRow}<tr class="${warn ? 'warn' : ''}">
       <td>${r.name}${alertHtml}</td>
-      <td>${r.avg_weight} г</td>
+      <td>${r.category || '—'}</td>
+      <td>${r.avg_weight || '—'}</td>
       <td>${r.shelf_life_days} дн</td>
       <td>${r.pieces}</td>
       <td>${r.grams}</td>
       <td>${kg}</td>
     </tr>`;
-  }).join('') || '<tr><td colspan="6" class="empty">Нет данных</td></tr>';
+  }).join('') || '<tr><td colspan="7" class="empty">Нет данных</td></tr>';
 
   const historyRows = history.map(r => {
     const l = OP_LABELS[r.type];
@@ -348,6 +425,7 @@ async function buildHtmlReport(env) {
   tbody tr:hover{background:#fdf8f5}
   tbody tr.warn td{color:#c0392b;background:#fff5f5}
   .batch-alert{font-size:.8rem;color:#888;margin-top:4px}
+  .category-row td{background:#fdf8f5;font-weight:700;color:#d95f3b;padding:6px 11px!important;border-bottom:2px solid #f0e8e0}
   .empty{text-align:center;color:#ccc;padding:24px!important}
   .legend{font-size:.8rem;color:#aaa;margin-top:8px}
   .footer{margin-top:16px;font-size:.75rem;color:#bbb;text-align:center}
@@ -362,7 +440,7 @@ async function buildHtmlReport(env) {
   <div class="body">
     <h2>Текущие остатки</h2>
     <table>
-      <thead><tr><th>Товар</th><th>Вес/шт</th><th>Срок</th><th>Штук</th><th>Граммы</th><th>Кг</th></tr></thead>
+      <thead><tr><th>Товар</th><th>Категория</th><th>Вес/шт</th><th>Срок</th><th>Штук</th><th>Граммы</th><th>Кг</th></tr></thead>
       <tbody>${stockRows}</tbody>
     </table>
     <div class="legend">🟢 свежая &nbsp; 🟡 истекает завтра &nbsp; 🟠 истекает сегодня &nbsp; 🔴 просрочена</div>
@@ -413,10 +491,19 @@ async function sendHtmlDocument(token, chatId, html, filename) {
 // ─── Клавиатуры ───────────────────────────────────────────────────────────────
 
 function productListKeyboard(products, callbackPrefix) {
-  const buttons = products.map(p => [{
-    text: `${p.name} (${p.avg_weight}г/шт · ${p.shelf_life_days}дн)`,
-    callback_data: `${callbackPrefix}:${p.id}`,
-  }]);
+  let lastCat = '';
+  const buttons = [];
+  for (const p of products) {
+    if (p.category && p.category !== lastCat) {
+      lastCat = p.category;
+      buttons.push([{ text: `— ${p.category} —`, callback_data: 'noop' }]);
+    }
+    const detail = p.avg_weight ? ` · ${p.avg_weight}г/шт` : '';
+    buttons.push([{
+      text: `${p.name}${detail}`,
+      callback_data: `${callbackPrefix}:${p.id}`,
+    }]);
+  }
   buttons.push([{ text: '↩️ Назад', callback_data: 'menu_main' }]);
   return { inline_keyboard: buttons };
 }
@@ -427,6 +514,18 @@ function batchListKeyboard(batches, opType, todayStr) {
     return [{
       text: `${emoji} Партия от ${formatDate(b.produced_at)} · ${b.remaining_pieces} шт · до ${formatDate(b.expires_at)}`,
       callback_data: `batch_select:${opType}:${b.id}`,
+    }];
+  });
+  buttons.push([{ text: '↩️ Назад', callback_data: 'menu_main' }]);
+  return { inline_keyboard: buttons };
+}
+
+function variantListKeyboard(variants, opTypePrefix, productId) {
+  const buttons = variants.map(v => {
+    const detail = v.pieces ? `${v.pieces} шт` : v.grams ? `${v.grams} г` : v.ml ? `${v.ml} мл` : '?';
+    return [{
+      text: `${detail} — ${v.price} ₽`,
+      callback_data: `variant_select:${opTypePrefix}:${productId}:${v.id}`,
     }];
   });
   buttons.push([{ text: '↩️ Назад', callback_data: 'menu_main' }]);
@@ -454,16 +553,20 @@ async function startOperation(token, env, chatId, msgId, opType) {
 // ─── Главный обработчик ───────────────────────────────────────────────────────
 
 async function handleUpdate(update, env, token) {
-  // Защита — только владелица
+  // Защита — только владельцы (OWNER_IDS — список ID через запятую)
   const chatId =
     update.callback_query?.message?.chat?.id ||
     update.message?.chat?.id;
 
   if (!chatId) return;
 
-  if (env.OWNER_ID && String(chatId) !== String(env.OWNER_ID)) return;
+  const ownerList = (env.OWNER_IDS || env.OWNER_ID || '').split(',').map(s => s.trim()).filter(Boolean);
+  if (ownerList.length && !ownerList.includes(String(chatId))) return;
 
   const todayStr = new Date().toISOString().slice(0, 10);
+
+  // Автозагрузка каталога из JSON при первом обращении
+  await seedCatalog(env);
 
   // ── Callback query ──────────────────────────────────────────────────────────
   if (update.callback_query) {
@@ -510,8 +613,19 @@ async function handleUpdate(update, env, token) {
       const archived = products.filter(p => p.archived);
 
       let text = '📦 *Товары*\n\n';
-      if (active.length)   text += active.map(p => `• ${p.name} — ${p.avg_weight}г/шт · ${p.shelf_life_days} дн`).join('\n');
-      else                 text += '_Нет активных товаров_';
+      if (active.length) {
+        let lastCat = '';
+        for (const p of active) {
+          if (p.category && p.category !== lastCat) {
+            lastCat = p.category;
+            text += `\n*${p.category}:*\n`;
+          }
+          const detail = p.avg_weight ? ` — ${p.avg_weight}г/шт · ${p.shelf_life_days} дн` : '';
+          text += `• ${p.name}${detail}\n`;
+        }
+      } else {
+        text += '_Нет активных товаров_';
+      }
       if (archived.length) text += '\n\n*Архив:*\n' + archived.map(p => `• ${p.name}`).join('\n');
 
       await editMessage(token, chatId, msgId, text, {
@@ -526,6 +640,9 @@ async function handleUpdate(update, env, token) {
       });
       return;
     }
+
+    // Заглушка для некликабельных элементов (категории и т.п.)
+    if (data === 'noop') return;
 
     // Добавить товар
     if (data === 'product_add') {
@@ -601,13 +718,22 @@ async function handleUpdate(update, env, token) {
       const product   = await getProductById(env, productId);
       if (!product) return;
 
+      const variants = await getVariants(env, productId);
+      const label = OP_LABELS[opType];
+
       if (opType === 'produced') {
-        // Для производства — сразу запрашиваем количество
-        const label = OP_LABELS[opType];
-        await setUserState(env, chatId, { step: 'op_enter_pieces', data: { opType, productId } });
-        await editMessage(token, chatId, msgId,
-          `${label.emoji} *${label.verb}: ${product.name}*\n_(${product.avg_weight} г/шт · срок ${product.shelf_life_days} дн)_\n\nВведите количество в *штуках*:`,
-          { reply_markup: cancelKeyboard() });
+        if (variants.length > 0) {
+          // Если есть фасовки — показываем выбор варианта
+          await editMessage(token, chatId, msgId,
+            `${label.emoji} *${label.verb}: ${product.name}*\n\nВыберите вариант фасовки:`,
+            { reply_markup: variantListKeyboard(variants, opType, productId) });
+        } else {
+          // Нет фасовок — сразу запрашиваем количество
+          await setUserState(env, chatId, { step: 'op_enter_pieces', data: { opType, productId } });
+          await editMessage(token, chatId, msgId,
+            `${label.emoji} *${label.verb}: ${product.name}*\n\nВведите количество в *штуках*:`,
+            { reply_markup: cancelKeyboard() });
+        }
       } else {
         // Для продажи/списания — показываем список партий
         const batches = await getActiveBatches(env, productId);
@@ -618,11 +744,33 @@ async function handleUpdate(update, env, token) {
           return;
         }
         await setUserState(env, chatId, { step: 'op_enter_pieces', data: { opType, productId } });
-        const label = OP_LABELS[opType];
         await editMessage(token, chatId, msgId,
           `${label.emoji} *${label.verb}: ${product.name}*\n\nВыберите партию:`,
           { reply_markup: batchListKeyboard(batches, opType, todayStr) });
       }
+      return;
+    }
+
+    // Выбор варианта фасовки для операции
+    if (data.startsWith('variant_select:')) {
+      const [, opType, productIdStr, variantIdStr] = data.split(':');
+      const productId = parseInt(productIdStr, 10);
+      const variantId = parseInt(variantIdStr, 10);
+      const product   = await getProductById(env, productId);
+      const variant   = await getVariantById(env, variantId);
+      if (!product || !variant) return;
+
+      const label = OP_LABELS[opType];
+      const detail = variant.pieces ? `${variant.pieces} шт` : variant.grams ? `${variant.grams} г` : variant.ml ? `${variant.ml} мл` : '?';
+
+      await setUserState(env, chatId, {
+        step: 'op_enter_pieces',
+        data: { opType, productId, variantId, variantPkgPieces: variant.pieces, variantGrams: variant.grams, variantMl: variant.ml }
+      });
+
+      await editMessage(token, chatId, msgId,
+        `${label.emoji} *${label.verb}: ${product.name}*\n📦 Фасовка: ${detail} — ${variant.price} ₽\n\nВведите количество *упаковок*:`,
+        { reply_markup: cancelKeyboard() });
       return;
     }
 
@@ -694,7 +842,7 @@ async function handleUpdate(update, env, token) {
         return;
       }
       const { name, avgWeight } = state.data;
-      const product = await createProduct(env, name, avgWeight, shelfDays);
+      const product = await createProduct(env, name, '', false, avgWeight, shelfDays);
       await clearUserState(env, chatId);
       await sendMessage(token, chatId,
         `✅ Товар добавлен!\n\n📌 *${product.name}*\n⚖️ ${product.avg_weight} г/шт\n📅 Срок годности: ${product.shelf_life_days} дн`,
@@ -704,21 +852,39 @@ async function handleUpdate(update, env, token) {
 
     // Операция — ввод штук
     if (state.step === 'op_enter_pieces') {
-      const pieces = parseInt(text, 10);
-      if (isNaN(pieces) || pieces <= 0) {
-        await sendMessage(token, chatId, '⚠️ Введите целое число больше 0, например: `50`');
+      const quantity = parseInt(text, 10);
+      if (isNaN(quantity) || quantity <= 0) {
+        await sendMessage(token, chatId, '⚠️ Введите целое число больше 0, например: `5`');
         return;
       }
 
-      const { opType, productId, batchId } = state.data;
+      const { opType, productId, batchId, variantId, variantPkgPieces, variantGrams, variantMl } = state.data;
       const product = await getProductById(env, productId);
-      const grams   = pieces * product.avg_weight;
+
+      // Расчёт: если указана фасовка — умножаем на количество упаковок
+      let pieces = quantity;
+      let grams  = 0;
+      if (variantGrams) {
+        grams = quantity * variantGrams;
+        pieces = quantity; // количество упаковок
+      } else if (variantPkgPieces) {
+        pieces = quantity * variantPkgPieces;
+        grams = 0;
+      } else if (variantMl) {
+        grams = quantity * variantMl; // храним мл в grams для совместимости
+        pieces = quantity;
+      } else {
+        grams = quantity * (product.avg_weight || 0);
+      }
 
       if (opType === 'produced') {
-        // Создаём новую партию
         const now       = new Date().toISOString();
         const expiresAt = addDays(now, product.shelf_life_days);
         const batch     = await createBatch(env, productId, pieces, grams, expiresAt);
+        // Если production с фасовкой — проставляем variant_id в batch
+        if (variantId) {
+          await env.DB.prepare('UPDATE batches SET variant_id = ? WHERE id = ?').bind(variantId, batch.id).run();
+        }
         await addOperation(env, 'produced', productId, batch.id, pieces, grams);
         await clearUserState(env, chatId);
 
@@ -726,7 +892,6 @@ async function handleUpdate(update, env, token) {
           `✅ *Произведено!*\n\n📌 ${product.name}\n• ${pieces} шт · ${grams} г\n📅 Партия до: ${formatDate(expiresAt)}`,
           { reply_markup: mainMenuKeyboard() });
       } else {
-        // Списываем с выбранной партии
         const batch = await getBatchById(env, batchId);
         await addOperation(env, opType, productId, batchId, pieces, grams);
         await clearUserState(env, chatId);
