@@ -9,6 +9,11 @@ compatibility_date = "2024-01-01"
 binding = "KV"
 id = "706b1a932c1d4b05bad568d2bb4fb2e3"
 
+[[d1_databases]]
+binding = "DB"
+database_name = "food_bot_db"
+database_id = "6bb532a5-f5d0-49a6-98ab-fdaadb572589"
+
 # Секреты задаются через wrangler secret put, НЕ хранить здесь:
 # BOT_TOKEN   — токен от @BotFather
 # SECRET      — любая случайная строка для защиты webhook URL
