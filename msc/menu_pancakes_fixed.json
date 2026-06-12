@@ -6,7 +6,7 @@
         "batch_variants": [
             {
                 "price": 970,
-                "pieces": null,
+                "pieces": 1,
                 "grams": null,
                 "ml": 750
             }
@@ -16,7 +16,8 @@
             "proteins": 7.1,
             "fats": 6.3,
             "carbohydrates": 10.9
-        }
+        },
+        "by_weight": false
     },
     {
         "name": "Блины с говядиной",
@@ -26,13 +27,13 @@
             {
                 "price": 475,
                 "pieces": 5,
-                "grams": null,
+                "grams": 500,
                 "ml": null
             },
             {
                 "price": 950,
                 "pieces": 10,
-                "grams": null,
+                "grams": 1000,
                 "ml": null
             }
         ],
@@ -41,7 +42,8 @@
             "proteins": 8.4,
             "fats": 9.1,
             "carbohydrates": 16.0
-        }
+        },
+        "by_weight": false
     },
     {
         "name": "Фрикадельки",
@@ -66,7 +68,8 @@
             "proteins": 12.0,
             "fats": 13.1,
             "carbohydrates": 3.7
-        }
+        },
+        "by_weight": true
     },
     {
         "name": "Котлеты",
@@ -91,10 +94,11 @@
             "proteins": 12.0,
             "fats": 12.1,
             "carbohydrates": 9.9
-        }
+        },
+        "by_weight": true
     },
     {
-        "name": "Перцы фаршированные",
+        "name": "Перцы фаршированные (гов)",
         "category": "Изделия из говядины",
         "custom_made": true,
         "batch_variants": [
@@ -116,7 +120,8 @@
             "proteins": 6.3,
             "fats": 6.3,
             "carbohydrates": 5.7
-        }
+        },
+        "by_weight": true
     },
     {
         "name": "Котлеты рыбные (филе минтая)",
@@ -141,7 +146,8 @@
             "proteins": 12.6,
             "fats": 4.2,
             "carbohydrates": 9.8
-        }
+        },
+        "by_weight": true
     },
     {
         "name": "Котлеты рыбные (филе кеты)",
@@ -166,7 +172,8 @@
             "proteins": 17.1,
             "fats": 6.3,
             "carbohydrates": 10.4
-        }
+        },
+        "by_weight": true
     },
     {
         "name": "Котлеты куриные классика",
@@ -191,7 +198,8 @@
             "proteins": 16.3,
             "fats": 4.2,
             "carbohydrates": 8.3
-        }
+        },
+        "by_weight": true
     },
     {
         "name": "Фрикадельки куриные",
@@ -216,7 +224,8 @@
             "proteins": 16.0,
             "fats": 4.4,
             "carbohydrates": 2.5
-        }
+        },
+        "by_weight": true
     },
     {
         "name": "Наггетсы",
@@ -241,7 +250,8 @@
             "proteins": 15.6,
             "fats": 3.4,
             "carbohydrates": 7.5
-        }
+        },
+        "by_weight": true
     },
     {
         "name": "Лодочки фаршированные ПП",
@@ -266,7 +276,8 @@
             "proteins": 7.7,
             "fats": 2.5,
             "carbohydrates": 4.5
-        }
+        },
+        "by_weight": true
     },
     {
         "name": "Митболы",
@@ -291,7 +302,8 @@
             "proteins": 15.6,
             "fats": 8.0,
             "carbohydrates": 6.9
-        }
+        },
+        "by_weight": true
     },
     {
         "name": "Фрикадельки \"Разноцветье\" (Красные)",
@@ -316,7 +328,8 @@
             "proteins": 14.4,
             "fats": 4.2,
             "carbohydrates": 2.4
-        }
+        },
+        "by_weight": true
     },
     {
         "name": "Фрикадельки \"Разноцветье\" (Зелёные)",
@@ -341,7 +354,8 @@
             "proteins": 14.7,
             "fats": 4.2,
             "carbohydrates": 1.4
-        }
+        },
+        "by_weight": true
     },
     {
         "name": "Фрикадельки \"Разноцветье\" (Жёлтые)",
@@ -366,7 +380,8 @@
             "proteins": 14.3,
             "fats": 4.2,
             "carbohydrates": 2.2
-        }
+        },
+        "by_weight": true
     },
     {
         "name": "Бомбочки \"Жульен\"",
@@ -391,7 +406,8 @@
             "proteins": 15.6,
             "fats": 6.2,
             "carbohydrates": 9.8
-        }
+        },
+        "by_weight": true
     },
     {
         "name": "Сырники классика",
@@ -401,7 +417,7 @@
             {
                 "price": 800,
                 "pieces": 12,
-                "grams": null,
+                "grams": 540,
                 "ml": null
             }
         ],
@@ -410,7 +426,8 @@
             "proteins": 15.3,
             "fats": 5.3,
             "carbohydrates": 12.8
-        }
+        },
+        "by_weight": false
     },
     {
         "name": "Сырники ПП",
@@ -420,7 +437,7 @@
             {
                 "price": 820,
                 "pieces": 12,
-                "grams": null,
+                "grams": 540,
                 "ml": null
             }
         ],
@@ -429,7 +446,8 @@
             "proteins": 19.0,
             "fats": 3.0,
             "carbohydrates": 8.0
-        }
+        },
+        "by_weight": false
     },
     {
         "name": "Сырники мак",
@@ -439,7 +457,7 @@
             {
                 "price": 820,
                 "pieces": 12,
-                "grams": null,
+                "grams": 540,
                 "ml": null
             }
         ],
@@ -448,7 +466,8 @@
             "proteins": 15.4,
             "fats": 5.8,
             "carbohydrates": 13.0
-        }
+        },
+        "by_weight": false
     },
     {
         "name": "Сырники шоколад",
@@ -458,7 +477,7 @@
             {
                 "price": 820,
                 "pieces": 12,
-                "grams": null,
+                "grams": 540,
                 "ml": null
             }
         ],
@@ -467,7 +486,8 @@
             "proteins": 14.9,
             "fats": 7.8,
             "carbohydrates": 15.1
-        }
+        },
+        "by_weight": false
     },
     {
         "name": "Сырники розовые",
@@ -477,7 +497,7 @@
             {
                 "price": 820,
                 "pieces": 12,
-                "grams": null,
+                "grams": 540,
                 "ml": null
             }
         ],
@@ -486,7 +506,8 @@
             "proteins": 13.3,
             "fats": 4.9,
             "carbohydrates": 12.0
-        }
+        },
+        "by_weight": false
     },
     {
         "name": "Запеканка классика малая",
@@ -495,7 +516,7 @@
         "batch_variants": [
             {
                 "price": 180,
-                "pieces": null,
+                "pieces": 1,
                 "grams": 120,
                 "ml": null
             }
@@ -505,7 +526,8 @@
             "proteins": 12.3,
             "fats": 7.0,
             "carbohydrates": 12.7
-        }
+        },
+        "by_weight": false
     },
     {
         "name": "Запеканка ПП малая",
@@ -514,7 +536,7 @@
         "batch_variants": [
             {
                 "price": 190,
-                "pieces": null,
+                "pieces": 1,
                 "grams": 120,
                 "ml": null
             }
@@ -524,7 +546,8 @@
             "proteins": 15.5,
             "fats": 4.3,
             "carbohydrates": 4.1
-        }
+        },
+        "by_weight": false
     },
     {
         "name": "Запеканка классика большая",
@@ -533,7 +556,7 @@
         "batch_variants": [
             {
                 "price": 470,
-                "pieces": null,
+                "pieces": 1,
                 "grams": 350,
                 "ml": null
             }
@@ -543,7 +566,8 @@
             "proteins": 12.3,
             "fats": 7.0,
             "carbohydrates": 12.7
-        }
+        },
+        "by_weight": false
     },
     {
         "name": "Запеканка ПП большая",
@@ -552,7 +576,7 @@
         "batch_variants": [
             {
                 "price": 490,
-                "pieces": null,
+                "pieces": 1,
                 "grams": 350,
                 "ml": null
             }
@@ -562,7 +586,8 @@
             "proteins": 15.5,
             "fats": 4.3,
             "carbohydrates": 4.1
-        }
+        },
+        "by_weight": false
     },
     {
         "name": "Паштет из куриной печени",
@@ -571,7 +596,7 @@
         "batch_variants": [
             {
                 "price": 350,
-                "pieces": null,
+                "pieces": 1,
                 "grams": 200,
                 "ml": null
             }
@@ -581,7 +606,8 @@
             "proteins": 5.0,
             "fats": 8.7,
             "carbohydrates": 3.1
-        }
+        },
+        "by_weight": false
     },
     {
         "name": "Лазанья",
@@ -590,7 +616,7 @@
         "batch_variants": [
             {
                 "price": 550,
-                "pieces": null,
+                "pieces": 1,
                 "grams": 350,
                 "ml": null
             }
@@ -600,7 +626,8 @@
             "proteins": 9.8,
             "fats": 12.5,
             "carbohydrates": 10.1
-        }
+        },
+        "by_weight": false
     },
     {
         "name": "Мясная запеканка",
@@ -609,7 +636,7 @@
         "batch_variants": [
             {
                 "price": 450,
-                "pieces": null,
+                "pieces": 1,
                 "grams": 350,
                 "ml": null
             }
@@ -619,7 +646,8 @@
             "proteins": 9.7,
             "fats": 11.8,
             "carbohydrates": 8.8
-        }
+        },
+        "by_weight": false
     },
     {
         "name": "Блинчики с творогом",
@@ -629,13 +657,13 @@
             {
                 "price": 410,
                 "pieces": 5,
-                "grams": null,
+                "grams": 500,
                 "ml": null
             },
             {
                 "price": 800,
                 "pieces": 10,
-                "grams": null,
+                "grams": 1000,
                 "ml": null
             }
         ],
@@ -644,7 +672,8 @@
             "proteins": 9.9,
             "fats": 5.3,
             "carbohydrates": 13.7
-        }
+        },
+        "by_weight": false
     },
     {
         "name": "Блинчики ветчина-сыр",
@@ -654,13 +683,13 @@
             {
                 "price": 435,
                 "pieces": 5,
-                "grams": null,
+                "grams": 500,
                 "ml": null
             },
             {
                 "price": 850,
                 "pieces": 10,
-                "grams": null,
+                "grams": 1000,
                 "ml": null
             }
         ],
@@ -669,7 +698,8 @@
             "proteins": 10.9,
             "fats": 11.7,
             "carbohydrates": 11.0
-        }
+        },
+        "by_weight": false
     },
     {
         "name": "Блинчики мясные",
@@ -679,13 +709,13 @@
             {
                 "price": 440,
                 "pieces": 5,
-                "grams": null,
+                "grams": 500,
                 "ml": null
             },
             {
                 "price": 860,
                 "pieces": 10,
-                "grams": null,
+                "grams": 1000,
                 "ml": null
             }
         ],
@@ -694,7 +724,8 @@
             "proteins": 10.2,
             "fats": 11.4,
             "carbohydrates": 11.0
-        }
+        },
+        "by_weight": false
     },
     {
         "name": "Блинчики курица-грибы",
@@ -704,13 +735,13 @@
             {
                 "price": 455,
                 "pieces": 5,
-                "grams": null,
+                "grams": 500,
                 "ml": null
             },
             {
                 "price": 890,
                 "pieces": 10,
-                "grams": null,
+                "grams": 1000,
                 "ml": null
             }
         ],
@@ -719,7 +750,8 @@
             "proteins": 9.3,
             "fats": 5.8,
             "carbohydrates": 15.7
-        }
+        },
+        "by_weight": false
     },
     {
         "name": "Котлеты свино-говяжьи",
@@ -744,7 +776,8 @@
             "proteins": 15.9,
             "fats": 16.0,
             "carbohydrates": 11.7
-        }
+        },
+        "by_weight": true
     },
     {
         "name": "Тефтели свино-говяжьи",
@@ -769,7 +802,8 @@
             "proteins": 15.6,
             "fats": 17.1,
             "carbohydrates": 2.6
-        }
+        },
+        "by_weight": true
     },
     {
         "name": "Фрикадельки свино-говяжьи",
@@ -794,7 +828,8 @@
             "proteins": 14.1,
             "fats": 15.1,
             "carbohydrates": 3.1
-        }
+        },
+        "by_weight": true
     },
     {
         "name": "Гнёзда мясные",
@@ -813,7 +848,8 @@
             "proteins": 14.7,
             "fats": 15.9,
             "carbohydrates": 3.2
-        }
+        },
+        "by_weight": false
     },
     {
         "name": "Перцы фаршированные",
@@ -838,6 +874,7 @@
             "proteins": 9.1,
             "fats": 9.3,
             "carbohydrates": 5.0
-        }
+        },
+        "by_weight": true
     }
 ]
